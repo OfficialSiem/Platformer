@@ -23,8 +23,14 @@ public class Flag : MonoBehaviour
 
     private IEnumerator LoadAfterDelay()
     {
+        //Unlock the next level
+        PlayerPrefs.SetInt(_sceneName + "Unlocked", 1);
+
+        //Delay for a bit
         yield return new WaitForSeconds(_loadLevelAfterHowManySeconds);
         Debug.Log($"Waited for {_loadLevelAfterHowManySeconds} seconds!");
+        
+        //Load next level
         SceneManager.LoadScene(_sceneName);
 
     }
