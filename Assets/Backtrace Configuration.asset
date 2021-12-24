@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90e908b13f7467f4185f3f45d43568c4, type: 3}
   m_Name: Backtrace Configuration
   m_EditorClassIdentifier: 
-  ServerUrl: https://submit.backtrace.io/testing-game-dev-siemsium/e2d2b9f450d0cb68c24c6be5348887ba157232a7238f192eeed7fa817a3a0e46/json
+  ServerUrl: https://submit.backtrace.io/testing-game-dev-siemsium01/38f84453f3028162c255353d691511b4865fd7075dbccee71b5a10ad5f524c60/json
   Token: 
   ReportPerMin: 50
   DisableInEditor: 0
