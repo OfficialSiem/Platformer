@@ -2,11 +2,14 @@ using UnityEngine;
 
 public class ItemBox : HittableBoxFromBellow
 {
-    [Tooltip("Which prefab will the box use")]
+    [Tooltip("Which prefab will the item use")]
     [SerializeField] GameObject _itemPrefab = null;
 
     [Tooltip("What item is in the box")]
     [SerializeField] GameObject _item = null;
+
+    [Tooltip("Can the item be launched from the box")]
+    [SerializeField] bool isLaunchable;
 
     //For future iterations, we can make it so the number of items equals the number of players!
     [Tooltip("How many items does the box have")]
@@ -24,6 +27,7 @@ public class ItemBox : HittableBoxFromBellow
 
     //Were all the items in the box used!
     bool _completelyUsed = false;
+
 
     private void Awake()
     {
@@ -63,7 +67,8 @@ public class ItemBox : HittableBoxFromBellow
             //subtract one from how many items are in the box
             _remainingItems--;
             _item.SetActive(true);
-            LaunchItem();
+            if(isLaunchable)
+                LaunchItem();
         }
 
     }

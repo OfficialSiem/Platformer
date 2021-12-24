@@ -19,5 +19,7 @@ public class Coin : MonoBehaviour
 
         //Add one to the coin collected total
         CoinsCollected++;
+
+        ScoreSystem.Add(100);
     }
 }

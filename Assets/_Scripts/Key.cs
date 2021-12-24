@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Key : MonoBehaviour
@@ -10,9 +11,9 @@ public class Key : MonoBehaviour
     [SerializeField] int maxKeyUses;
 
     //How many times the key has been used
-    int numOfKeyUses; 
+    int numOfKeyUses;
 
-    void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         //Check if a collider with a player component enters the trigger area
         var player = collision.GetComponent<Player>();
@@ -20,18 +21,19 @@ public class Key : MonoBehaviour
         //Check if an object with a KeyLock component has entered the trigger area
         var keyLock = collision.GetComponent<KeyLock>();
 
-        //If a player did enter
-        if(player != null)
+        if (player != null)
         {
+
             //Make the object a child of whomever collided with it
             transform.SetParent(player.transform);
 
             //Make the object appear above the player
             transform.localPosition = Vector3.up;
+            Debug.Log("Handing it over to Player");
         }
 
         //If we have met the right keylock
-        if(keyLock != null && keyLock == _keyLock)
+        if (keyLock != null && keyLock == _keyLock)
         {
             //Then unlock it
             keyLock.Unlock();
@@ -42,9 +44,11 @@ public class Key : MonoBehaviour
         //If the number of times we use the key is equal to our max (or above)
         if(maxKeyUses <= numOfKeyUses)
         {
+            Debug.Log("Key Has Been Used");
             //Destory the key
             Destroy(gameObject);
         }
 
     }
+
 }
