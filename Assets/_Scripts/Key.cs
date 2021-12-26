@@ -23,7 +23,6 @@ public class Key : MonoBehaviour
 
         if (player != null)
         {
-
             //Make the object a child of whomever collided with it
             transform.SetParent(player.transform);
 

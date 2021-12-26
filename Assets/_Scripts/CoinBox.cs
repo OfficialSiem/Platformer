@@ -23,5 +23,8 @@ public class CoinBox : HittableBoxFromBellow
         _remainingCoins--;
         //increment the number of coins collected by 1
         Coin.CoinsCollected++;
+
+        //increment the score by 100
+        ScoreSystem.Add(100);
     }
 }
