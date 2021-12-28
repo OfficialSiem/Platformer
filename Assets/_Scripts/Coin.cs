@@ -7,6 +7,9 @@ public class Coin : MonoBehaviour
     //How many coins have been collected through out the level
     public static int CoinsCollected;
 
+    //How many points are earned for picking up the ciub
+    [SerializeField] int pointsEarned = 100;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //Check if a collider with a player component enters the trigger area
@@ -14,12 +17,19 @@ public class Coin : MonoBehaviour
         if (player == null) //if the check turns out empty
             return; //Just stop running the code
         
-        //Otherwise turn off the coin
-        gameObject.SetActive(false);
-
         //Add one to the coin collected total
         CoinsCollected++;
 
-        ScoreSystem.Add(100);
+        //Add Points to a Score
+        ScoreSystem.Add(pointsEarned);
+
+        //Turn off the Collider
+        GetComponent<Collider2D>().enabled = false;
+        
+        //Turn off the Sprite Renderer
+        GetComponent<SpriteRenderer>().enabled = false;
+
+        //Play coin music (to sound as if a coin was picked up)
+        GetComponent<AudioSource>().Play();
     }
 }
