@@ -10,6 +10,9 @@ public class Coin : MonoBehaviour
     //How many points are earned for picking up the ciub
     [SerializeField] int pointsEarned = 100;
 
+    //List of sounds to play when picking up a coin
+    [SerializeField] List<AudioClip> _clips;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //Check if a collider with a player component enters the trigger area
@@ -29,7 +32,18 @@ public class Coin : MonoBehaviour
         //Turn off the Sprite Renderer
         GetComponent<SpriteRenderer>().enabled = false;
 
-        //Play coin music (to sound as if a coin was picked up)
-        GetComponent<AudioSource>().Play();
+        //If we have more than one sound file we want to play when grabbing a coin
+        if(_clips.Count > 0)
+        {
+            int randomIndex = UnityEngine.Random.Range(0, _clips.Count);
+            AudioClip clip = _clips[randomIndex];
+            //Play coin music (to sound as if a coin was picked up)
+            GetComponent<AudioSource>().PlayOneShot(clip);
+        }
+        else
+        {
+            GetComponent<AudioSource>().Play();
+        }
+        
     }
 }

@@ -574,6 +574,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointsEarned: 100
+  _clips: []
 --- !u!58 &61543105
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -11987,6 +11988,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointsEarned: 100
+  _clips:
+  - {fileID: 8300000, guid: 37f67a53a91564b4fb6ae254b0f9ad20, type: 3}
+  - {fileID: 8300000, guid: 8d2af9872d889674c9d4fb7704b3f6f6, type: 3}
+  - {fileID: 8300000, guid: e50b1c5445fbba8499a464d68b2889e2, type: 3}
+  - {fileID: 8300000, guid: 253ec71d93d363b448ac2f10f1c521b4, type: 3}
+  - {fileID: 8300000, guid: 0b8de401c4e864a4e8acac87a7680487, type: 3}
+  - {fileID: 8300000, guid: 3a4513812bb8ec04f9e6039731eb39d2, type: 3}
+  - {fileID: 8300000, guid: a4c92704ed813af468d80db09d55a473, type: 3}
+  - {fileID: 8300000, guid: 085c50e92ac884d43a9a1a701dce38aa, type: 3}
+  - {fileID: 8300000, guid: 7cf276d877bd9f7409e090d4d32850c9, type: 3}
+  - {fileID: 8300000, guid: 7b298fd8e619c864dba52c5d70b5fa01, type: 3}
 --- !u!58 &477539789
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -17272,6 +17284,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointsEarned: 100
+  _clips: []
 --- !u!58 &512056016
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -17394,7 +17407,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 10.531249
+  orthographic size: 4
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
