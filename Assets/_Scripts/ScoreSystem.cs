@@ -26,4 +26,9 @@ public class ScoreSystem : MonoBehaviour
             PlayerPrefs.SetInt("HighScore", _highScore);
         }
     }
+
+    internal static void Add(object pointsEarned)
+    {
+        throw new NotImplementedException();
+    }
 }

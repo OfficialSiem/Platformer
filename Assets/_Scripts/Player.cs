@@ -32,9 +32,16 @@ public class Player : MonoBehaviour
     Rigidbody2D _rigidbody2D = null;
     SpriteRenderer _spriteRenderer = null;
     Animator _animator = null;
+
     Vector2 _startPosition = Vector2.zero;
+
+    //Controller for Left/Right Player movement (Joystick, button clicks, etc [determined in Player settings])
+    private string _horizontalAxis = null;
+    
+    //Horizontal movement in game
     float _horizontal = 0f;
 
+    //Determines which Layermask for ground
     int _layerMask = 0;
     bool _isGrounded = false;
     bool _isOnSlipperySurface = false;
@@ -42,11 +49,12 @@ public class Player : MonoBehaviour
     int _jumpsRemaining = 0;
     float _jumpTimer = 0;
     float _fallTimer = 0;
-    private string _jumpButton = null;
-    private string _horizontalAxis = null;
+    string _jumpButton = null;
+  
+    AudioSource _audioSource;
     #endregion
-   
-    
+
+
     //the players number is given by whatever the editor has
     public int PlayerNumber => _playerNumber;
 
@@ -61,6 +69,7 @@ public class Player : MonoBehaviour
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _jumpButton = $"P{_playerNumber}Jump";
         _horizontalAxis = $"P{_playerNumber}Horizontal";
+        _audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -162,6 +171,10 @@ public class Player : MonoBehaviour
 
         //and set the jump timer to 0, because the player has just started their jump
         _jumpTimer = 0;
+
+        //If there is an audio soucre attached to the player (preferably a jump sfx) then play it!
+        if(_audioSource != null)
+            _audioSource.Play();
     }
 
     //check if the player has the ability to jump
@@ -172,6 +185,11 @@ public class Player : MonoBehaviour
     #endregion
 
     #region Movement Mechanics
+    void ReadHorizontalInput()
+    {
+        _horizontal = Input.GetAxis(_horizontalAxis) * _horizontalSpeed;
+    }
+
     //move in the left or right direction based on the hoziontals
     void MoveHorizontal()
     {
@@ -195,10 +213,6 @@ public class Player : MonoBehaviour
     }
 
     //read the horizontal movement of the player
-    void ReadHorizontalInput()
-    {
-        _horizontal = Input.GetAxis(_horizontalAxis) * _horizontalSpeed;
-    }
     #endregion
 
     #region Animations

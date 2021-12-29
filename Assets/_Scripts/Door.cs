@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//In the future, I want to have it so doors can decide which collectables they need (and how many of those collectables they need)
 public class Door : MonoBehaviour
 {
     [Header("Door Sprite")]
@@ -47,17 +48,25 @@ public class Door : MonoBehaviour
             Open();
     }
 
-    void OnTriggerEnter2D(Collider2D collision)
-    {
-        //If the door is not open
-        if (_mayOpen == false)
+    private void OnTriggerStay2D(Collider2D collision)
+    {   //Check if the door is may be open
+            if (_mayOpen == false)
             return; //then stop running code from here
 
-        //if an object with a player component did hit the player
-        //AND an exit was assign to the door
+        //Check if who ever is near the door is a player
         var player = collision.GetComponent<Player>();
-        if(player != null & _exit != null)
-            player.TeleportTo(_exit.transform.position); //Teleport the player to where the door is
+        if (player == null)
+            return; //If not then don't read any code further
+
+        //If an exit was assign to the door
+
+        if(_exit != null)
+        {
+            //And if the input W key was pressed
+            if (Input.GetKeyDown(KeyCode.W))
+                player.TeleportTo(_exit.transform.position); //Teleport the player to where the exit is
+        }
+
     }
 
 }

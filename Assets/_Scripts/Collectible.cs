@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class Collectible : MonoBehaviour
 {
-    //List of which collectors has access to this collectable
-    public event Action OnPickedUp;
+    private int pointsEarned;
+
+    //What happens on PickUp
+    public event Action OnPickUp;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -14,11 +16,23 @@ public class Collectible : MonoBehaviour
         if (player == null) //if the check turns out empty
             return; //Just stop running the code
 
-        //Otherwise turn off the object
-        gameObject.SetActive(false);
+        //Add Points to a Score
+        ScoreSystem.Add(pointsEarned);
+
+        //Turn off the Collider
+        GetComponent<Collider2D>().enabled = false;
+
+        //Turn off the Sprite Renderer
+        GetComponent<SpriteRenderer>().enabled = false;
+
+        var _audioSource = GetComponent<AudioSource>();
+
+        //If there is an audio soucre attached to the player (preferably a jump sfx) then play it!
+        if (_audioSource != null)
+            _audioSource.Play();
 
         //If the Pick Up event isnt null, then invoke it!
-        OnPickedUp?.Invoke();
+        OnPickUp?.Invoke();
 
 
     }

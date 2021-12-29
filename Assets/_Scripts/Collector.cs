@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -25,7 +23,7 @@ public class Collector : MonoBehaviour
 
     #region Gizmos for the collector
     //"What color to make the gizmo when not selected"
-    static Color _gizmoColorWhenNotSelected = new Color(0.6f, 0.6f, 0.6f, 0.6f);
+    static Color _gizmoColorWhenNotSelected = new Color(0.6f, 0.6f, 0.6f, 1f);
 
     [Tooltip("The Gizmo color if selected")]
     [SerializeField] Color _gizmoColorWhenSelected;
@@ -38,11 +36,10 @@ public class Collector : MonoBehaviour
     {
         _remainingText = GetComponentInChildren<TMP_Text>();
 
-
         foreach (var collectible in _collectibles)
         {
             //The collectible will have an event and then do whatever ItemPickedUp needs!
-            collectible.OnPickedUp += ItemPickedUp;
+            collectible.OnPickUp += ItemPickedUp;
         }
 
         //Count how many collectables remain
@@ -51,7 +48,6 @@ public class Collector : MonoBehaviour
         //If the remaining text component exists, set the string to show how many of said collectables remain
         _remainingText?.SetText(countRemaining.ToString());
     }
-
 
     // Update is called once per frame
     public void ItemPickedUp()
@@ -77,27 +73,42 @@ public class Collector : MonoBehaviour
     //Because it's OnValidate, this will happen in the editor!
     private void OnValidate()
     {
+        GetAllCollectables();
 
         //In case we got duplicates in our list, the .Distinct method will fix that up.
         _collectibles = _collectibles.Distinct().ToList();
     }
 
     //Just helpful tools to check which collectors have which items
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
     {
        //For each collectable we have in the list
         foreach (var collectible in _collectibles)
         {
-            //Check to see if the object with the collector script was added
-            if (UnityEditor.Selection.activeGameObject == gameObject)
-                // If so, then change gizmo colors to something eye catching so we know its selected
-                Gizmos.color = _gizmoColorWhenSelected; 
+            //if the gameobject selected is this one
+            if(UnityEditor.Selection.activeGameObject == gameObject)
+            {
+                Gizmos.color = _gizmoColorWhenSelected;
+            }
             else
-                //If not, then change the gizmo colors to something when not selected
+            {
                 Gizmos.color = _gizmoColorWhenNotSelected;
+            }
 
             //Draw the gizmo
             Gizmos.DrawLine(transform.position, collectible.transform.position);
+        }
+    }
+
+    public void GetAllCollectables()
+    {
+        //Unforunately, this returns an array
+        Collectible[] list = FindObjectsOfType(typeof(Collectible)) as Collectible[];
+
+        //But we can then transfer that array to a list, it's a really bad way of doing this (I could use tags to further optimize)
+        foreach (Collectible obj in list)
+        {
+            _collectibles.Add(obj);
         }
     }
 }
