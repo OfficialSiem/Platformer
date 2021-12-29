@@ -28,15 +28,9 @@ public class ItemBox : HittableBoxFromBellow
     //Were all the items in the box used!
     bool _completelyUsed = false;
 
-
-    private void Awake()
-    {
-        _remainingItems = _totalitems;
-    }
-
     private void Start()
     {
-        
+        _remainingItems = _totalitems;
         if (_itemPrefab != null)
         {
             _itemPrefab.SetActive(false);
