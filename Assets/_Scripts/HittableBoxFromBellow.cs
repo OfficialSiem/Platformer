@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class HittableBoxFromBellow : MonoBehaviour
 {
@@ -9,11 +10,15 @@ public class HittableBoxFromBellow : MonoBehaviour
     protected virtual bool CanUse => true;
 
     //Animator for the HittableBox
-    Animator _animator;
+    [SerializeField] Animator _animator;
+    [SerializeField] AudioSource _audioSource;
 
-    private void Awake()
+    void Awake()
     {
+        Debug.Log("HittableObjectsAwaking");
+        _audioSource = GetComponent<AudioSource>();
         _animator = GetComponent<Animator>();
+        Debug.Log("AWAKE");
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -32,6 +37,9 @@ public class HittableBoxFromBellow : MonoBehaviour
         //But if what ever hit the box was hitting them from bellow
         if (collision.contacts[0].normal.y > 0)
         {
+            //Play Audio
+            PlayAudio();
+
             //Play the animation
             PlayAnimation();
 
@@ -44,13 +52,22 @@ public class HittableBoxFromBellow : MonoBehaviour
         }
     }
 
+    private void PlayAudio()
+    {
+        if (_audioSource != null)
+            _audioSource.Play();
+        else
+        {
+            Debug.Log("Audio source is null");
+        }
+    }
+
     private void PlayAnimation()
     {
         //Play the animator if we have one
         if (_animator != null)
             //Set trigger to 0
             _animator.SetTrigger("Use");
-
     }
 
     protected virtual void Use()

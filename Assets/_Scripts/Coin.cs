@@ -32,8 +32,14 @@ public class Coin : MonoBehaviour
         //Turn off the Sprite Renderer
         GetComponent<SpriteRenderer>().enabled = false;
 
+        PlaySound();
+        
+    }
+
+    public void PlaySound()
+    {
         //If we have more than one sound file we want to play when grabbing a coin
-        if(_clips.Count > 0)
+        if (_clips.Count > 0)
         {
             int randomIndex = UnityEngine.Random.Range(0, _clips.Count);
             AudioClip clip = _clips[randomIndex];
@@ -44,6 +50,5 @@ public class Coin : MonoBehaviour
         {
             GetComponent<AudioSource>().Play();
         }
-        
     }
 }

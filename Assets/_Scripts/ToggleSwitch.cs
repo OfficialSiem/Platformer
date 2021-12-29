@@ -23,8 +23,14 @@ public class ToggleSwitch : MonoBehaviour
     [SerializeField] UnityEvent _onToggledLeft;
     [SerializeField] UnityEvent _onToggledCenter;
 
-    
+    [SerializeField] AudioClip _leftSound;
+    [SerializeField] AudioClip _rightSound;
+
+    private AudioSource _audioSource;
+
+
     SpriteRenderer _spriteRenderer;
+
 
     //Toggle Direction
     ToggleDirection _currentDirection;
@@ -44,6 +50,7 @@ public class ToggleSwitch : MonoBehaviour
     void Start()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
+        _audioSource = GetComponent<AudioSource>();
         SetToggleDirection(_startingDirection, true);
     }
 
@@ -93,6 +100,8 @@ public class ToggleSwitch : MonoBehaviour
             case ToggleDirection.Left:
                 _spriteRenderer.sprite = _left;
                 _onToggledLeft.Invoke();
+                if (_audioSource != null)
+                    _audioSource.PlayOneShot(_leftSound);
                 break;
             case ToggleDirection.Center:
                 _spriteRenderer.sprite = _center;
@@ -101,6 +110,8 @@ public class ToggleSwitch : MonoBehaviour
             case ToggleDirection.Right:
                 _spriteRenderer.sprite = _right;
                 _onToggledRight.Invoke();
+                if (_audioSource != null)
+                    _audioSource.PlayOneShot(_rightSound);
                 break;
             default:
                 break;

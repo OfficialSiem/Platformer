@@ -10,8 +10,12 @@ public class Key : MonoBehaviour
     [Tooltip("How many times the key can be used")]
     [SerializeField] int maxKeyUses;
 
+    [Tooltip("What sound is played when the key is picked up?")]
+    [SerializeField] AudioSource _audioSource;
+
     //How many times the key has been used
     int numOfKeyUses;
+    
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -29,6 +33,12 @@ public class Key : MonoBehaviour
             //Make the object appear above the player
             transform.localPosition = Vector3.up;
             Debug.Log("Handing it over to Player");
+
+            if(_audioSource != null)
+            {
+                _audioSource.Play();
+            }
+            
         }
 
         //If we have met the right keylock
@@ -50,4 +60,5 @@ public class Key : MonoBehaviour
 
     }
 
+   void OnValidate() => _audioSource = GetComponent<AudioSource>();
 }
