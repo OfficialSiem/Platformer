@@ -34,11 +34,9 @@ public class Key : MonoBehaviour
             transform.localPosition = Vector3.up;
             Debug.Log("Handing it over to Player");
 
-            if(_audioSource != null)
-            {
-                _audioSource.Play();
-            }
-            
+            PlayAudio();
+
+
         }
 
         //If we have met the right keylock
@@ -60,5 +58,16 @@ public class Key : MonoBehaviour
 
     }
 
-   void OnValidate() => _audioSource = GetComponent<AudioSource>();
+    private void PlayAudio()
+    {
+        var audioSource = GetComponent<AudioSource>();
+        if (audioSource != null)
+        {
+            audioSource.Play();
+            Debug.Log($"{audioSource} Was played!");
+        }
+            
+        else
+            Debug.Log("MISSING AUDIO SOURCE");
+    }
 }

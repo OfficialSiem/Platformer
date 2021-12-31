@@ -7,10 +7,19 @@ public class Slime : MonoBehaviour
 {
     Rigidbody2D _rigidbody2D;
 
+    [Tooltip("How far to check for objects and or if there is a floor")]
     [SerializeField] float _sensorDepth = 0.4f;
+
+    [Tooltip("Which direction on the x axis do we travel in")]
     int _direction = -1;
+
+    [Tooltip("What checks for things on the left")]
     [SerializeField] Transform _leftSensor = null;
+
+    [Tooltip("Right things are checked with this")]
     [SerializeField] Transform _rightSensor = null;
+
+    [Tooltip("What it looks like when its defeated")]
     [SerializeField] Sprite _deadSprite;
 
     
@@ -34,22 +43,39 @@ public class Slime : MonoBehaviour
 
     private void ScanSensor(Transform sensor)
     {
-        Debug.DrawRay(sensor.position, Vector2.down * _sensorDepth, Color.red);
-        var result = Physics2D.Raycast(sensor.position, Vector2.down, _sensorDepth);
-        if (result.collider == null)
-            TurnAround();
+        ScanBellow(sensor);
+        ScanSides(sensor);
 
+    }
+
+    private void ScanSides(Transform sensor)
+    {
+        //Draw a ray that extends from the sensor's position to bellow the ground
         Debug.DrawRay(sensor.position, new Vector2(_direction, 0) * _sensorDepth, Color.red);
+
+        //Check if there is an object in the way
         var sideresult = Physics2D.Raycast(sensor.position, new Vector2(_direction, 0), _sensorDepth);
         if (sideresult.collider != null)
-            TurnAround();
+            TurnAround(); //If so, then turn around
+    }
 
+    private void ScanBellow(Transform sensor)
+    {
+        //Draw a ray that extends from the sensor's position to bellow the ground by the amout
+        Debug.DrawRay(sensor.position, Vector2.down * _sensorDepth, Color.red);
+        //check if the ground is bellow
+        var result = Physics2D.Raycast(sensor.position, Vector2.down, _sensorDepth);
+        if (result.collider == null)
+            TurnAround(); //If not then turn around
     }
 
     private void TurnAround()
     {
+        //Get the Sprite Rendered
         var _spriteRenderer = GetComponent<SpriteRenderer>();
+        //Change the direction we're moving
         _direction *= -1;
+        //And then flip the sprite on the x axis if need be!
         _spriteRenderer.flipX = _direction > 0;
     }
 
@@ -71,6 +97,7 @@ public class Slime : MonoBehaviour
 
     IEnumerator Die()
     {
+        PlayAudio();
         var _spriteRenderer = GetComponent<SpriteRenderer>();
         _spriteRenderer.sprite = _deadSprite;
         GetComponent<Animator>().enabled = false;
@@ -87,5 +114,14 @@ public class Slime : MonoBehaviour
 
 
         
+    }
+
+    private void PlayAudio()
+    {
+        var audioSource = GetComponent<AudioSource>();
+        if (audioSource != null)
+            audioSource.Play();
+        else
+            Debug.Log("MISSING AUDIO SOURCE");
     }
 }

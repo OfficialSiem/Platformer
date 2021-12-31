@@ -32,11 +32,11 @@ public class Coin : MonoBehaviour
         //Turn off the Sprite Renderer
         GetComponent<SpriteRenderer>().enabled = false;
 
-        PlaySound();
+        PlaySounds();
         
     }
 
-    public void PlaySound()
+    public void PlaySounds()
     {
         //If we have more than one sound file we want to play when grabbing a coin
         if (_clips.Count > 0)

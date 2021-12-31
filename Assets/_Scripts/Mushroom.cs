@@ -18,16 +18,17 @@ public class Mushroom : MonoBehaviour
             return; //likewise, if the player doesn't have a rigidbody then end the code here
         }
 
-        if(_audioSource != null)
-        {
-            _audioSource.Play();
-        }
+        PlayAudio();
         //send the player flying upwards
         rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, _bounceVelocity);
     }
 
-    private void OnValidate()
+    private void PlayAudio()
     {
-        _audioSource = GetComponent<AudioSource>();
+        var audioSource = GetComponent<AudioSource>();
+        if (audioSource != null)
+            audioSource.Play();
+        else
+            Debug.Log("MISSING AUDIO SOURCE");
     }
 }

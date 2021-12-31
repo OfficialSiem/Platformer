@@ -5,6 +5,9 @@ public class CoinBox : HittableBoxFromBellow
     [Tooltip("How many coins the box has")]
     [SerializeField] int _totalCoins = 3;
 
+    [Tooltip("How many points earned from hitting the box?")]
+    [SerializeField] int pointsEarned = 100;
+
     protected override bool CanUse => _remainingCoins > 0;
 
     //How many coins are left in the box
@@ -25,6 +28,6 @@ public class CoinBox : HittableBoxFromBellow
         Coin.CoinsCollected++;
 
         //increment the score by 100
-        ScoreSystem.Add(100);
+        ScoreSystem.Add(pointsEarned);
     }
 }
