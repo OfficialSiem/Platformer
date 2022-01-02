@@ -246,6 +246,7 @@ public class Player : MonoBehaviour
     //resets the player's position to the starting position
     internal void ResetToStart()
     {
+        SceneManager.LoadScene(0);
         _rigidbody2D.position = _startPosition;
     }
 

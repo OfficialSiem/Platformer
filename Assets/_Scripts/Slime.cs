@@ -48,6 +48,7 @@ public class Slime : MonoBehaviour
 
     }
 
+
     private void ScanSides(Transform sensor)
     {
         //Draw a ray that extends from the sensor's position to bellow the ground
@@ -111,7 +112,6 @@ public class Slime : MonoBehaviour
             alpha -= Time.deltaTime;
             _spriteRenderer.color = new Color(1f, 1f, 1f, alpha);
         }
-
 
         
     }

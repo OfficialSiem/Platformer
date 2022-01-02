@@ -881,7 +881,7 @@ GameObject:
   - component: {fileID: 181068584}
   - component: {fileID: 181068585}
   m_Layer: 0
-  m_Name: Left Sensor (1)
+  m_Name: Right Sensor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1978,7 +1978,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 7.34375
+  orthographic size: 4
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
