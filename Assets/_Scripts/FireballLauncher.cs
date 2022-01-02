@@ -20,8 +20,6 @@ public class FireballLauncher : MonoBehaviour
     //Used to figure out which button is being pressed
 
 
-
-
     void Awake()
     {
         _player = GetComponent<Player>();

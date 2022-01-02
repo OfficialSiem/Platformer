@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Fly : MonoBehaviour
+public class Fly : MonoBehaviour, ITakeDamage
 {
     private Vector2 _startPosition = Vector2.zero;
     [SerializeField] private Vector2 _direction = Vector2.up;
@@ -28,5 +28,8 @@ public class Fly : MonoBehaviour
 
     }
 
-
+    public void TakeDamage()
+    {
+        gameObject.SetActive(false);
+    }
 }

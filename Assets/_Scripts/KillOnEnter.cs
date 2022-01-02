@@ -2,6 +2,18 @@
 
 public class KillOnEnter : MonoBehaviour
 {
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        //if an object with out the Player component has entered the trigger area
+        var player = collision.collider.GetComponent<Player>();
+        if (player == null) //do nothing
+            return; //stop running the code past this point
+
+        //Assuming a player has entered the trigger area
+        //immediately send the player back to the restart point
+        player.ResetToStart();
+
+    }
     void OnTriggerEnter2D(Collider2D collision)
     {
         //if an object with out the Player component has entered the trigger area

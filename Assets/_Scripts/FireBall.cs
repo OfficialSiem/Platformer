@@ -21,12 +21,22 @@ public class FireBall : MonoBehaviour
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
-        
+        _rigidbody.velocity = new Vector2(_launchForce * Direction, _bounceForce);
+
     }
 
     // Update is called once per frame
     void OnCollisionEnter2D(Collision2D collision)
     {
+        ITakeDamage danageable = collision.collider.GetComponent<ITakeDamage>();
+        Fly fly = collision.collider.GetComponent<Fly>();
+        if (danageable != null)
+        {
+            danageable.TakeDamage();
+            DestroyFireBall();
+            return;
+        }
+
         _bouncesRemaining--;
         if (_bouncesRemaining < 0)
             DestroyFireBall();

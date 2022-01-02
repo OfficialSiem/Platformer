@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Breakable : MonoBehaviour
+public class Breakable : MonoBehaviour, ITakeDamage
 {
     [Tooltip("How many points earned from hitting the box?")]
     [SerializeField] int pointsEarned = 100;
@@ -41,5 +41,10 @@ public class Breakable : MonoBehaviour
             audioSource.Play();
         else
             Debug.Log("MISSING AUDIO SOURCE");
+    }
+
+    public void TakeDamage()
+    {
+        TakeHit();
     }
 }

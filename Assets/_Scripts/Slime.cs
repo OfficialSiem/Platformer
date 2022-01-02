@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Slime : MonoBehaviour
+public class Slime : MonoBehaviour, ITakeDamage
 {
     Rigidbody2D _rigidbody2D;
 
@@ -39,6 +39,11 @@ public class Slime : MonoBehaviour
             ScanSensor(_leftSensor);
         else
             ScanSensor(_rightSensor);
+    }
+
+    public void TakeDamage()
+    {
+        StartCoroutine(Die());
     }
 
     private void ScanSensor(Transform sensor)
@@ -91,7 +96,7 @@ public class Slime : MonoBehaviour
         Debug.Log($"Normal = {normal}");
 
         if (normal.y <= -0.5)
-            StartCoroutine(Die());
+            TakeDamage();
         else
             player.ResetToStart();
     }
