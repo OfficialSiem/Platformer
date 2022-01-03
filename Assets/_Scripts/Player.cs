@@ -28,6 +28,18 @@ public class Player : MonoBehaviour
     [SerializeField] float _downwardJerk = 0.1f;
     #endregion
 
+    #region Slide / Wall Jump Attributes
+    [Header("Slide")]
+    [Tooltip("What checks for things on the left")]
+    [SerializeField] Transform _leftSensor = null;
+
+    [Tooltip("Right things are checked with this")]
+    [SerializeField] Transform _rightSensor = null;
+
+    [Tooltip("How fast to slide down walls")]
+    [Range(0.01f, 5f)] [SerializeField] float _wallSlideSpeed = 0;
+    #endregion
+
     #region Private Player Attributes
     Rigidbody2D _rigidbody2D = null;
     SpriteRenderer _spriteRenderer = null;
@@ -42,16 +54,20 @@ public class Player : MonoBehaviour
     float _horizontal = 0f;
 
     //Determines which Layermask for ground
-    int _layerMask = 0;
+    int _groundLayerMask = 0;
     bool _isGrounded = false;
     bool _isOnSlipperySurface = false;
 
+    //Jump Variables
     int _jumpsRemaining = 0;
     float _jumpTimer = 0;
     float _fallTimer = 0;
     string _jumpButton = null;
   
-    AudioSource _audioSource;
+    //Audiosource for player
+    AudioSource _audioSource = null;
+
+
     #endregion
 
 
@@ -62,7 +78,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         _startPosition = transform.position;
-        _layerMask = LayerMask.GetMask("Default");
+        _groundLayerMask = LayerMask.GetMask("Default");
         _jumpsRemaining = _maxJumps;
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
@@ -89,6 +105,12 @@ public class Player : MonoBehaviour
         //Update the animations
         UpdateAnimator();
         UpdateSpriteDirection();
+
+        if (ShouldStartSlide())
+        { 
+            Slide();
+            return;
+        }
 
         //If the player should jump
         if (ShouldStartJump())
@@ -123,12 +145,44 @@ public class Player : MonoBehaviour
         }
     }
 
+    void Slide()
+    {
+        _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, -_wallSlideSpeed);
+    }
+
+    bool ShouldStartSlide()
+    {
+        if (_isGrounded)
+            return false;
+
+        if(_horizontal < 0)
+        {
+            //Create a circle that can check if the player is touching a surface with _layerMask on it.
+            var hit = Physics2D.OverlapCircle(_leftSensor.position, 0.1f);
+
+            //If the circle did hit something, and its a wall
+            if (hit != null && hit.CompareTag("Wall"))
+                return true;
+        }
+        if (_horizontal > 0)
+        {
+            //Create a circle that can check if the player is touching a surface with _layerMask on it.
+            var hit = Physics2D.OverlapCircle(_rightSensor.position, 0.1f);
+
+            //If the circle did hit something, and its a wall
+            if (hit != null && hit.CompareTag("Wall"))
+                return true;
+        }
+
+        return false;
+    }
+
     #region Checking Platform
     //Update whether or not the player is on the ground and what type of ground
     void UpdateIsGrounded()
     {
         //Create a circle that can check if the player is touching a surface with _layerMask on it.
-        var hit = Physics2D.OverlapCircle(_feet.position, 0.1f, _layerMask);
+        var hit = Physics2D.OverlapCircle(_feet.position, 0.1f, _groundLayerMask);
 
         //If the circle did hit something, then yes, the player is groudned
         _isGrounded = hit != null;
@@ -236,6 +290,8 @@ public class Player : MonoBehaviour
 
         //if so, then let the animator know it's okay to animate walking
         _animator.SetBool("canWalk", isWalking);
+
+        _animator.SetBool("canSlide", ShouldStartSlide());
 
         //but seperately, check if the player can jump at all
         _animator.SetBool("canJump", ShouldContinueJump());
